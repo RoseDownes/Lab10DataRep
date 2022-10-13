@@ -12,6 +12,9 @@ import {
   Route,
   Routes
 } from "react-router-dom";
+import { Read } from './components/read';
+import { Create } from './components/create';
+
 /*
  * imports allow you to import from other pages
  * this class also extends react.component and has a render method(see components commments)
@@ -40,16 +43,12 @@ class App extends React.Component {
           </Navbar>
           <Routes>
             <Route path='/' element={<Content />}></Route>
-            <Route path='/read' element={<Header />}></Route>
-            <Route path='/create' element={<Footer />}></Route>
+            <Route path='/read' element={<Read />}></Route>
+            <Route path='/create' element={<Create />}></Route>
           </Routes>
 
-          {/* 
-          (the old code commented here>)
-        <Header></Header>
-        <Content></Content>
-        <Footer></Footer> */}
         </div>
+        
       </Router>
     );
   }
