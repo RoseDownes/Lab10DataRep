@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+// CORS error will happen because its blocking a connection this will help allow the connection 
 const cors = require('cors');
 app.use(cors());
 app.use(function (req, res, next) {
@@ -25,6 +26,7 @@ app.get('/', (req, res) => {
 
 // res.jason is sending json response
 app.get('/api/books', (req, res) => {
+    // //array that will hold my hard coded json file
     const mybooks = [
         {
             "title": "Learn Git in a Month of Lunches",
@@ -69,9 +71,7 @@ app.get('/api/books', (req, res) => {
     })
 })
 
-//post 
-//is a more secure way to send secure data over the web as it wont be displayed on the url
-//install body-parser taht will search the body of the request and return it
+//post is a more secure way to send secure data over the web as it won't be displayed on the url
 app.post('/api/books', (req, res) => {
     console.log(req.body);
     res.send('Data recieved ');

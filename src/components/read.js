@@ -5,7 +5,9 @@ import axios from "axios";
 export class Read extends React.Component {
 
     componentDidMount() {
+        //axios makes a http request and gets a response
         axios.get("http://localhost:3000/api/books")
+         //call back function
             .then((response)=>{
                 this.setState({
                     books: response.data.books

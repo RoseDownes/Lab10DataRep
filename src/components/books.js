@@ -9,7 +9,7 @@ export class Books extends React.Component {
             (books) => {
 
                 //Displays books
-                return <BookItems books={books}></BookItems>
+                return <BookItems books={books} key={books.isbn}></BookItems>
             }
 
         );
