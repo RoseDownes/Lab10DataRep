@@ -10,7 +10,7 @@ export class Read extends React.Component {
          //call back function
             .then((response)=>{
                 this.setState({
-                    books: response.data.books
+                    books: response.data
                 })
             })
             .catch(function(error){

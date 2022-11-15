@@ -4,6 +4,26 @@ const port = 3000
 
 const bodyParser = require('body-parser')
 
+// getting-started.js
+const mongoose = require('mongoose');
+
+main().catch(err => console.log(err));
+
+//connecting async
+async function main() {
+    await mongoose.connect('mongodb+srv://admin:admin@cluster0.7zwsywt.mongodb.net/?retryWrites=true&w=majority');
+
+    // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
+}
+
+const bookSchema = new mongoose.Schema({
+    title: String,
+    cover: String,
+    author: String
+});
+//the model is how you are going to interact
+const bookModel = mongoose.model('books', bookSchema);
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -27,53 +47,26 @@ app.get('/', (req, res) => {
 // res.jason is sending json response
 app.get('/api/books', (req, res) => {
     // //array that will hold my hard coded json file
-    const mybooks = [
-        {
-            "title": "Learn Git in a Month of Lunches",
-            "isbn": "1617292419",
-            "pageCount": 0,
-            "thumbnailUrl":
-                "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/umali.jpg",
-            "status": "MEAP",
-            "authors": ["Rick Umali"],
-            "categories": []
-        },
-        {
-            "title": "MongoDB in Action, Second Edition",
-            "isbn": "1617291609",
-            "pageCount": 0,
-            "thumbnailUrl":
-                "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/banker2.jpg",
-            "status": "MEAP",
-            "authors": [
-                "Kyle Banker",
-                "Peter Bakkum",
-                "Tim Hawkins",
-                "Shaun Verch",
-                "Douglas Garrett"
-            ],
-            "categories": []
-        },
+   bookModel.find((error,data)=>{
+    res.json(data);
+   })
+})
+app.get('/api/books/:id', (req, res) =>{
+    console.log(req.params.id);
 
-        {
-            "title": "Getting MEAN with Mongo, Express, Angular, and Node",
-            "isbn": "1617292036",
-            "pageCount": 0,
-            "thumbnailUrl":
-                "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/sholmes.jpg",
-            "status": "MEAP",
-            "authors": ["Simon Holmes"],
-            "categories": []
-        }
-    ]
-    res.json({
-        books: mybooks
+    bookModel.findById(req.params.id, (error,data)=>{
+        res.json(data);
     })
 })
-
 //post is a more secure way to send secure data over the web as it won't be displayed on the url
 app.post('/api/books', (req, res) => {
     console.log(req.body);
+    //data is repersented in the body of the request
+    bookModel.create({
+        title:req.body.title,
+        cover: req.body.cover,
+        author: req.body.author,
+    })
     res.send('Data recieved ');
 })
 //the server is going to listen for a request for url on the port 3000
