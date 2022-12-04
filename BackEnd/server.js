@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 4000
 
 const bodyParser = require('body-parser')
 
@@ -58,6 +58,19 @@ app.get('/api/books/:id', (req, res) =>{
         res.json(data);
     })
 })
+
+// Handle the edit button server side and edit the correct book
+app.put("/api/book/:id", (req, res) => {
+    console.log("Update: " + req.params.id);
+    bookModel.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true },
+        (error, data) => {
+            res.send(data);
+        }
+    );
+});
 //post is a more secure way to send secure data over the web as it won't be displayed on the url
 app.post('/api/books', (req, res) => {
     console.log(req.body);

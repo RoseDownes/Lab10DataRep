@@ -1,5 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 //extends the react component 
 export class BookItems extends React.Component {
@@ -12,12 +13,17 @@ export class BookItems extends React.Component {
             <div>
 
                 <Card>
-                    <Card.Body>{this.props.books.title}</Card.Body>
+                    <Card.Header>{this.props.books.title}</Card.Header>
+                    <Card.Body>
+                        <blockquote className="blockquote mb-0">
+                            <img src={this.props.books.cover}></img>
+                            <footer >
+                                {this.props.books.author}
+                            </footer>
+                        </blockquote>
+                        <Link to={"/edit/" + this.props.books._id} className="btn btn-primary">Edit</Link>
+                    </Card.Body>
                 </Card>
-
-
-                <img src={this.props.books.cover}></img>
-                {this.props.books.author}
             </div>
         );
     }

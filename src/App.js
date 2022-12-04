@@ -14,6 +14,7 @@ import {
 } from "react-router-dom";
 import { Read } from './components/read';
 import { Create } from './components/create';
+import { Edit } from './components/edit';
 
 /*
  * imports allow you to import from other pages
@@ -33,7 +34,7 @@ class App extends React.Component {
           */}
           <Navbar bg="primary" variant="dark">
             <Container>
-              <Navbar.Brand href="/">Navbar</Navbar.Brand>  
+              <Navbar.Brand href="/">Navbar</Navbar.Brand>
               <Nav className="me-auto">
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/read">Read</Nav.Link>
@@ -45,10 +46,11 @@ class App extends React.Component {
             <Route path='/' element={<Content />}></Route>
             <Route path='/read' element={<Read />}></Route>
             <Route path='/create' element={<Create />}></Route>
+            <Route path='/edit/:id' element={<Edit></Edit>}></Route>
           </Routes>
 
         </div>
-        
+
       </Router>
     );
   }
