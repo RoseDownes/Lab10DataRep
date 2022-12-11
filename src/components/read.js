@@ -3,8 +3,28 @@ import { Books } from "./books";
 import axios from "axios";
 //extends the React.Component 
 export class Read extends React.Component {
-
+    //constructor
+    constructor() {
+        super();
+        this.ReloadData = this.ReloadData.bind(this);
+    }
+    
     componentDidMount() {
+        //axios makes a http request and gets a response
+        axios.get("http://localhost:4000/api/books")
+            //call back function
+            .then((response) => {
+                this.setState({
+                    books: response.data
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    // Use this method to delete automatically
+    ReloadData() {
         //axios makes a http request and gets a response
         axios.get("http://localhost:4000/api/books")
             //call back function
@@ -30,7 +50,7 @@ export class Read extends React.Component {
             //calls array of books 
             <div>
                 <h3> Hello from read component </h3>
-                <Books books={this.state.books}></Books>
+                <Books books={this.state.books} ReloadData={this.ReloadData}></Books>
             </div>
         );
     }

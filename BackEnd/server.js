@@ -11,7 +11,8 @@ main().catch(err => console.log(err));
 
 //connecting async
 async function main() {
-    await mongoose.connect('mongodb+srv://admin:admin@cluster0.7zwsywt.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect('mongodb+srv://admin:admin@cluster0.7zwsywt.mongodb.net/?retryWrites=true&w=majority')
+    //'mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority');
 
     // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
 }
@@ -47,14 +48,14 @@ app.get('/', (req, res) => {
 // res.jason is sending json response
 app.get('/api/books', (req, res) => {
     // //array that will hold my hard coded json file
-   bookModel.find((error,data)=>{
-    res.json(data);
-   })
+    bookModel.find((error, data) => {
+        res.json(data);
+    })
 })
-app.get('/api/books/:id', (req, res) =>{
+app.get('/api/books/:id', (req, res) => {
     console.log(req.params.id);
 
-    bookModel.findById(req.params.id, (error,data)=>{
+    bookModel.findById(req.params.id, (error, data) => {
         res.json(data);
     })
 })
@@ -76,12 +77,26 @@ app.post('/api/books', (req, res) => {
     console.log(req.body);
     //data is repersented in the body of the request
     bookModel.create({
-        title:req.body.title,
+        title: req.body.title,
         cover: req.body.cover,
         author: req.body.author,
     })
     res.send('Data recieved ');
 })
+
+//Handle the delete button
+app.delete('/api/book/:id', (req, res) => {
+    console.log("Delete " + req.params.id);
+
+    bookModel.findByIdAndDelete({ _id: req.params.id }, (error, data) => {
+        if (error) {
+            console.log(error)
+        }
+        console.log(data);
+        res.send(data);
+    })
+})
+
 //the server is going to listen for a request for url on the port 3000
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
