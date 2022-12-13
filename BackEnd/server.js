@@ -9,6 +9,13 @@ const mongoose = require('mongoose');
 
 main().catch(err => console.log(err));
 
+//add just under import section at the top of server,js
+// Serve the static files from the React app
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
+
+
 //connecting async
 async function main() {
     await mongoose.connect('mongodb+srv://admin:admin@cluster0.7zwsywt.mongodb.net/?retryWrites=true&w=majority')
@@ -96,6 +103,12 @@ app.delete('/api/book/:id', (req, res) => {
         res.send(data);
     })
 })
+//add at the bottom just over app.listen
+// Handles any requests that don't match the ones above
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../build/index.html'));
+});
+
 
 //the server is going to listen for a request for url on the port 3000
 app.listen(port, () => {
